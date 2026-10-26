@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel da Oficina · Torino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #06110d;
+      --shell: #0c1c16;
+      --card: #12261e;
+      --card-2: #163026;
+      --line: rgba(186, 230, 205, 0.08);
+      --text: #f3fbf6;
+      --muted: #8eaea0;
+      --mint: #3ee0a0;
+      --mint-2: #7dffc2;
+      --purple: #7a6cff;
+      --purple-2: #b1a6ff;
+      --danger: #ff6b81;
+      --amber: #f5b14a;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 70% -10%, rgba(46, 140, 96, 0.18), transparent 60%),
+        var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+
+    button, input { font-family: inherit; color: inherit; }
+    button { cursor: pointer; }
+
+    .device {
+      width: min(1380px, 100%);
+      height: min(900px, 100%);
+      min-height: 640px;
+      background: linear-gradient(180deg, #10241c 0%, var(--shell) 120px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      overflow: hidden;
+    }
+
+    .rail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 10px 16px;
+      gap: 16px;
+      background: rgba(0, 0, 0, 0.16);
+      border-right: 1px solid var(--line);
+    }
+
+    .brand {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(160deg, #2ee59a, #0f8f5b);
+      color: #062117;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      box-shadow: 0 8px 20px rgba(46, 229, 154, 0.28);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .nav button, .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+    }
+
+    .nav button.active {
+      background: rgba(62, 224, 160, 0.14);
+      color: var(--mint);
+      border-color: rgba(62, 224, 160, 0.2);
+      box-shadow: inset 0 0 0 1px rgba(62, 224, 160, 0.05);
+    }
+
+    .nav button:hover { color: var(--text); background: rgba(255, 255, 255, 0.04); }
+    .avatar {
+      margin-top: auto;
+      background: #1b3a2e;
+      color: var(--mint-2);
+      font-weight: 700;
+    }
+
+    .main {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+      padding: 20px 20px 18px 18px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.045em;
+      font-weight: 800;
+    }
+
+    .topbar p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .search {
+      margin-left: auto;
+      width: min(340px, 38vw);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #10241c;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+    }
+
+    .search input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      font-size: 14px;
+    }
+
+    .search input::placeholder { color: #6e8b7d; }
+
+    .stage {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(250px, 1.05fr) minmax(240px, 0.95fr);
+      gap: 16px;
+    }
+
+    .row {
+      min-height: 0;
+      display: grid;
+      gap: 16px;
+    }
+
+    .row.top { grid-template-columns: 1.45fr 0.9fr; }
+    .row.bottom { grid-template-columns: 1.05fr 0.78fr 1.15fr; }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), transparent 30%), var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      min-width: 0;
+      min-height: 0;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card-head h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .card-head span, .sub {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chart {
+      height: calc(100% - 46px);
+      min-height: 180px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 46px 2px 0;
+      overflow: visible;
+    }
+
+    .bar-wrap {
+      position: relative;
+      flex: 1 1 0;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    .bar {
+      position: relative;
+      width: 100%;
+      border-radius: 10px 10px 6px 6px;
+      background: linear-gradient(180deg, #b7aeff 0%, #6d5ef0 100%);
+      min-height: 8px;
+      transition: height 0.35s ease, filter 0.2s ease;
+    }
+
+    .bar-wrap.on .bar {
+      background: linear-gradient(180deg, #d6ffe8 0%, #3ee0a0 45%, #14b87a 100%);
+      box-shadow: 0 10px 24px rgba(46, 224, 150, 0.28);
+    }
+
+    .bar-wrap:hover .bar { filter: brightness(1.08); }
+
+    .tip {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      transform: translateX(-50%);
+      z-index: 2;
+      background: #edfff6;
+      color: #123126;
+      border-radius: 12px;
+      padding: 7px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .tip.left { left: 0; transform: none; }
+    .tip.right { left: auto; right: 0; transform: none; }
+    .tip.left::after { left: 14px; transform: translateX(0) rotate(45deg); }
+    .tip.right::after { left: auto; right: 14px; transform: translateX(0) rotate(45deg); }
+
+    .tip::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -5px;
+      width: 9px;
+      height: 9px;
+      background: #edfff6;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .bar-wrap.on .tip, .bar-wrap:hover .tip { opacity: 1; }
+
+    .hero {
+      background:
+        radial-gradient(90% 80% at 100% 0%, rgba(170, 255, 214, 0.28), transparent 46%),
+        linear-gradient(165deg, #1c5a42 0%, #124634 42%, #0f2e24 100%);
+      border-color: rgba(150, 255, 205, 0.14);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .hero-kicker {
+      color: rgba(233, 255, 244, 0.72);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .hero-value {
+      margin: 8px 0 0;
+      font-size: 56px;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-weight: 800;
+    }
+
+    .delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      background: rgba(8, 28, 20, 0.28);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .delta.up { color: #d8ffe9; }
+    .delta.down { color: #ffe1e6; }
+    .delta.flat { color: #e7fff4; }
+
+    .split {
+      margin-top: auto;
+      display: grid;
+      gap: 8px;
+      padding-top: 16px;
+    }
+
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      background: rgba(5, 20, 14, 0.22);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .metric:hover, .metric.on { background: rgba(255, 255, 255, 0.1); }
+    .metric.on { border-color: rgba(255, 255, 255, 0.45); }
+
+    .metric b { font-size: 16px; letter-spacing: -0.03em; }
+    .metric span { color: rgba(233, 255, 244, 0.78); font-size: 13px; }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .situation {
+      display: grid;
+      grid-template-columns: 158px 1fr;
+      gap: 14px;
+      align-items: center;
+      height: calc(100% - 42px);
+    }
+
+    .donut {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    .donut svg { width: 150px; height: 150px; transform: rotate(-90deg); }
+    .slice { fill: none; stroke-width: 12; cursor: pointer; }
+    .slice:hover, .slice.on { stroke-width: 16; }
+    .donut.has-filter .slice:not(.on) { opacity: 0.35; }
+
+    .hole {
+      position: absolute;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #12261e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hole strong {
+      font-size: 26px;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .hole span { color: var(--muted); font-size: 11px; margin-top: 3px; }
+
+    .legend { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .legend button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 0;
+      border-radius: 10px;
+      padding: 5px 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend button strong { margin-left: auto; color: var(--text); font-weight: 700; }
+    .legend button.on, .legend button:hover { background: rgba(255, 255, 255, 0.04); color: var(--text); }
+    .legend button.on { box-shadow: inset 0 0 0 1px rgba(62, 224, 160, 0.45); }
+
+    .stack { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+    .stack .card { flex: 1; }
+    button.card {
+      width: 100%;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+    button.card.on { box-shadow: inset 0 0 0 1px rgba(62, 224, 160, 0.55); }
+
+    .mini-value {
+      margin: 6px 0 0;
+      font-size: 32px;
+      letter-spacing: -0.045em;
+      font-weight: 800;
+    }
+
+    .buckets {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 64px;
+      margin-top: 12px;
+    }
+
+    .buckets button {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 4px;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: var(--muted);
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .buckets i {
+      display: block;
+      width: 100%;
+      border-radius: 7px 7px 4px 4px;
+      background: linear-gradient(180deg, var(--mint-2), var(--mint));
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .buckets button.on i { box-shadow: 0 0 0 2px #f3fbf6; opacity: 1; }
+    .buckets button.on { color: var(--text); font-weight: 700; }
+
+    .bucket-labels {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .bucket-labels span { flex: 1; }
+
+    .list-card { display: flex; flex-direction: column; }
+    .list {
+      overflow: auto;
+      margin: 4px -6px 0;
+      padding: 0 6px 2px;
+      min-height: 0;
+    }
+
+    .list::-webkit-scrollbar { width: 8px; }
+    .list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 99px; }
+
+    .item {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 6px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-radius: 12px;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .item:hover { background: rgba(255, 255, 255, 0.03); }
+    .item.on {
+      background: rgba(62, 224, 160, 0.12);
+      border-color: rgba(62, 224, 160, 0.4);
+    }
+
+    .detail {
+      margin: 0 0 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(62, 224, 160, 0.08);
+      border: 1px solid rgba(62, 224, 160, 0.22);
+    }
+
+    .detail strong { font-size: 14px; letter-spacing: -0.02em; }
+    .detail dl {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 12px;
+      margin: 8px 0 0;
+    }
+    .detail dt { color: var(--muted); font-size: 10px; }
+    .detail dd { margin: 1px 0 0; font-size: 12px; font-weight: 700; }
+
+    button:focus-visible, .slice:focus-visible {
+      outline: 2px solid var(--mint);
+      outline-offset: 2px;
+    }
+
+    .badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: #1a3329;
+      color: var(--mint-2);
+    }
+
+    .item .who { font-weight: 700; font-size: 14px; letter-spacing: -0.02em; }
+    .item .meta { color: var(--muted); font-size: 12px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .right { text-align: right; }
+    .right .age { font-weight: 800; font-size: 13px; }
+    .pill {
+      display: inline-block;
+      margin-top: 4px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 24px 8px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .ghost {
+      border: 0;
+      background: rgba(255,255,255,0.04);
+      color: var(--mint);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1100px) {
+      body { padding: 0; display: block; }
+      .device {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        border-radius: 0;
+        grid-template-columns: 1fr;
+      }
+      .rail {
+        flex-direction: row;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 10px 12px;
+      }
+      .nav { flex-direction: row; margin-top: 0; }
+      .avatar { margin-top: 0; margin-left: auto; }
+      .stage { grid-template-rows: auto; }
+      .row.top, .row.bottom { grid-template-columns: 1fr; }
+      .chart { height: 220px; }
+      .search { width: 100%; margin-left: 0; }
+      .topbar { flex-wrap: wrap; }
+      #chart-range { display: none; }
+      .situation { grid-template-columns: 140px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="device">
+    <aside class="rail">
+      <div class="brand" title="Oficina Torino">T</div>
+      <nav class="nav" aria-label="Seções">
+        <button type="button" data-view="patio" class="active" title="Pátio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13h18M5 13l1.5-5h11L19 13M6 16.5a1.5 1.5 0 1 0 0.01 0M18 16.5a1.5 1.5 0 1 0 0.01 0"/><path d="M4 13v3h16v-3"/></svg>
+        </button>
+        <button type="button" data-view="doadores" title="Doadores de peças">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.7 5.6L4 17l3 3 5.1-5a4 4 0 0 0 5.6-5.7l-2.2 2.2-2-2 2.2-2.2z"/></svg>
+        </button>
+        <button type="button" data-view="ordens" title="Ordens pendentes">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+        </button>
+      </nav>
+      <div class="avatar" title="Oficina Torino">OF</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="title">Painel da Oficina</h1>
+          <p id="subtitle">Controle diário de veículos · Torino</p>
+        </div>
+        <label class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8eaea0" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Buscar cliente, placa, OS ou chassi" autocomplete="off" />
+        </label>
+      </header>
+
+      <section class="stage">
+        <div class="row top">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h2 id="chart-title">Fluxo do pátio</h2>
+                <div class="sub" id="chart-sub">Veículos em cada dia de controle</div>
+              </div>
+              <span id="chart-range"></span>
+            </div>
+            <div class="chart" id="chart"></div>
+          </article>
+          <article class="card hero">
+            <div class="hero-kicker" id="hero-kicker">No pátio</div>
+            <div class="hero-value" id="hero-value">0</div>
+            <div class="delta flat" id="hero-delta">sem comparação</div>
+            <div class="split" id="hero-metrics"></div>
+          </article>
+        </div>
+        <div class="row bottom">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h2 id="donut-title">Situação</h2>
+                <div class="sub" id="donut-sub">Distribuição do dia selecionado</div>
+              </div>
+            </div>
+            <div class="situation">
+              <div class="donut" id="donut">
+                <svg id="donut-svg" viewBox="0 0 100 100" aria-hidden="false"></svg>
+                <div class="hole"><strong id="donut-total">0</strong><span id="donut-label">veículos</span></div>
+              </div>
+              <div class="legend" id="legend"></div>
+            </div>
+          </article>
+          <div class="stack">
+            <button type="button" class="card" id="mini1">
+              <div class="card-head"><h2 id="mini1-title">Permanência média</h2></div>
+              <div class="mini-value" id="mini1-value">—</div>
+              <div class="sub" id="mini1-sub">Tempo desde a entrada</div>
+              <div class="buckets" id="buckets"></div>
+            </button>
+            <button type="button" class="card" id="mini2">
+              <div class="card-head">
+                <h2 id="mini2-title">Aguardando peças</h2>
+                <span id="mini2-tag"></span>
+              </div>
+              <div class="mini-value" id="mini2-value">0</div>
+              <div class="sub" id="mini2-sub">Veículos parados por falta de peça</div>
+            </button>
+          </div>
+          <article class="card list-card">
+            <div class="card-head">
+              <div>
+                <h2 id="list-title">Veículos</h2>
+                <div class="sub" id="list-sub"></div>
+              </div>
+              <button type="button" class="ghost" id="clear">Limpar filtro</button>
+            </div>
+            <div class="detail" id="detail" hidden></div>
+            <div class="list" id="list" role="listbox" aria-label="Registros"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="data/oficina.js"></script>
+  <script>
+    const COLORS = {
+      "Em serviço": "#7a6cff",
+      "Aguardando peças": "#f5b14a",
+      "Pronto/Retirar": "#3ee0a0",
+      "Orçamento Autorização": "#5aa2ff",
+      "Funilaria": "#ff8a5b",
+      "Vendas Usado": "#9bb0c3",
+      "Finalizado": "#3ee0a0",
+      "Espera (Mecânico)": "#c084fc",
+      "Sem status": "#66756e"
+    };
+
+    const state = { view: "patio", date: null, status: null, query: "", selected: null, band: null, place: null, extra: null };
+
+    const $ = (id) => document.getElementById(id);
+
+    function excelDate(n) {
+      return new Date(Date.UTC(1899, 11, 30) + Math.round(Number(n)) * 86400000);
+    }
+
+    function fmtDate(n) {
+      const d = excelDate(n);
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+      return dd + "/" + mm + "/" + d.getUTCFullYear();
+    }
+
+    function fmtShort(n) {
+      const d = excelDate(n);
+      const months = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+      return d.getUTCDate() + " " + months[d.getUTCMonth()];
+    }
+
+    function clean(v) {
+      if (v == null) return "";
+      return String(v).replace(/\s+/g, " ").trim();
+    }
+
+    function normModelo(v) {
+      const t = clean(v);
+      if (!t) return "Não informado";
+      const k = t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "");
+      const map = {
+        hiway: "HI-Way",
+        sway: "S-Way",
+        tector: "Tector",
+        daily: "Daily",
+        magirus: "Magirus",
+        onibus: "Ônibus",
+        stralis: "Stralis",
+        vertis: "Vertis"
+      };
+      return map[k] || t;
+    }
+
+    function normStatus(v) {
+      const t = clean(v);
+      if (!t) return "Sem status";
+      const k = t.toLowerCase();
+      if (k.startsWith("em servi")) return "Em serviço";
+      if (k.startsWith("aguard")) return "Aguardando peças";
+      if (k.startsWith("pronto")) return "Pronto/Retirar";
+      if (k.startsWith("orç") || k.startsWith("orc")) return "Orçamento Autorização";
+      if (k.startsWith("funil")) return "Funilaria";
+      if (k.startsWith("venda")) return "Vendas Usado";
+      if (k.startsWith("final")) return "Finalizado";
+      if (k.startsWith("espera")) return "Espera (Mecânico)";
+      return t;
+    }
+
+    function normPerson(v) {
+      return clean(v).replace(/Fabio/gi, "Fábio").replace(/Joao/g, "João");
+    }
+
+    function asId(v) {
+      if (v == null || v === "") return "";
+      return String(v);
+    }
+
+    function colKey(cell) {
+      if (cell == null || typeof cell === "number") return "";
+      const s = String(cell).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      if (!s) return "";
+      if (s.startsWith("data de retirada")) return "retirada";
+      if (s.startsWith("data da saida") || s.startsWith("data da sa")) return "saida";
+      if (s.startsWith("data de entrada")) return "entrada";
+      if (s === "data") return "snapshot";
+      if (s.startsWith("cliente")) return "cliente";
+      if (s.startsWith("ordem") || s.startsWith("orden")) return "os";
+      if (s.startsWith("consultor")) return "consultor";
+      if (s.startsWith("modelo")) return "modelo";
+      if (s.includes("doador") && s.startsWith("ch")) return "chassis";
+      if (s.startsWith("chassi") || s.startsWith("chassis") || s.startsWith("ch-") || s.startsWith("ch ")) return "chassisRecebedor";
+      if (s.startsWith("placa")) return "placa";
+      if (s.startsWith("veiculo doador")) return "doador";
+      if (s.startsWith("tecnico")) return "tecnico";
+      if (s.startsWith("pecas") || s.startsWith("numero da peca")) return "pecas";
+      if (s.startsWith("status")) return "status";
+      if (s.startsWith("tipo de")) return "tipo";
+      if (s.startsWith("veiculo na")) return "naCasa";
+      return "";
+    }
+
+    function headerMap(row) {
+      const map = {};
+      row.forEach((cell, index) => {
+        const key = colKey(cell);
+        if (!key) return;
+        if (!map[key]) map[key] = [];
+        map[key].push(index);
+      });
+      return map;
+    }
+
+    function isHeader(row) {
+      const first = colKey(row[0]);
+      const second = colKey(row[1]);
+      return (first === "snapshot" || first === "entrada") && (second === "cliente" || second === "saida" || second === "entrada");
+    }
+
+    function pick(row, map, key) {
+      const indexes = (map && map[key]) || [];
+      for (const index of indexes) {
+        const value = row[index];
+        if (value != null && String(value).trim() !== "") return value;
+      }
+      return null;
+    }
+
+    function pickAll(row, map, key) {
+      return ((map && map[key]) || [])
+        .map((index) => row[index])
+        .filter((value) => value != null && String(value).trim() !== "");
+    }
+
+    function asDate(value) {
+      if (typeof value !== "number" || value < 20000 || value > 60000) return null;
+      return value;
+    }
+
+    function readSheet(matrix, build) {
+      let map = null;
+      let lastDate = null;
+      const out = [];
+      matrix.forEach((row) => {
+        if (isHeader(row)) {
+          map = headerMap(row);
+          return;
+        }
+        if (!map) return;
+        if (typeof row[0] === "number") {
+          lastDate = row[0];
+          out.push(build(row, map, row[0]));
+          return;
+        }
+        if (row[0] === "Data" && lastDate != null) out.push(build(row, map, lastDate));
+      });
+      return out.filter(Boolean);
+    }
+
+    function groupBy(rows, keyFn) {
+      const map = new Map();
+      rows.forEach((row) => {
+        const key = keyFn(row);
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(row);
+      });
+      return [...map.entries()].sort((a, b) => a[0] - b[0]);
+    }
+
+    function idade(snapshot, entrada) {
+      if (typeof entrada !== "number") return null;
+      const days = Math.round(snapshot - entrada);
+      if (days < 0 || days > 8000) return null;
+      return days;
+    }
+
+    function fmtIdade(days) {
+      if (days == null) return "s/ entrada";
+      if (days >= 365) {
+        let anos = Math.floor(days / 365);
+        let meses = Math.round((days % 365) / 30);
+        if (meses >= 12) { anos += 1; meses = 0; }
+        return meses ? anos + "a " + meses + "m" : anos + "a";
+      }
+      return days + "d";
+    }
+
+    const patio = readSheet(window.OFICINA_RAW.patio, (row, map, data) => ({
+      data,
+      cliente: clean(pick(row, map, "cliente")) || "Sem cliente",
+      entrada: asDate(pick(row, map, "entrada")),
+      os: asId(pick(row, map, "os")) || "Sem OS",
+      consultor: normPerson(pick(row, map, "consultor")),
+      modelo: normModelo(pick(row, map, "modelo")),
+      chassis: asId(pick(row, map, "chassis") || pick(row, map, "chassisRecebedor")),
+      placa: clean(pick(row, map, "placa")) || "Sem placa",
+      tecnico: normPerson(pick(row, map, "tecnico")),
+      status: normStatus(pick(row, map, "status"))
+    }));
+
+    const doadores = readSheet(window.OFICINA_RAW.doadores, (row, map, data) => {
+      const pecas = pickAll(row, map, "pecas").map(clean).filter(Boolean).join(" · ");
+      return {
+        data,
+        cliente: clean(pick(row, map, "cliente")) || "Sem cliente",
+        retirada: asDate(pick(row, map, "retirada")),
+        os: asId(pick(row, map, "os")),
+        consultor: normPerson(pick(row, map, "consultor")),
+        modelo: normModelo(pick(row, map, "modelo")),
+        chassis: asId(pick(row, map, "chassis") || pick(row, map, "chassisRecebedor")),
+        placa: clean(pick(row, map, "placa")),
+        doador: clean(pick(row, map, "doador")),
+        tecnico: normPerson(pick(row, map, "tecnico")),
+        pecas: pecas || "Peça não informada"
+      };
+    });
+
+    const ordensRaw = readSheet(window.OFICINA_RAW.ordens, (row, map, data) => ({
+      entrada: asDate(pick(row, map, "entrada")) || data,
+      saida: asDate(pick(row, map, "saida")),
+      cliente: clean(pick(row, map, "cliente")) || "Sem cliente",
+      os: asId(pick(row, map, "os")),
+      chassis: asId(pick(row, map, "chassis") || pick(row, map, "chassisRecebedor")),
+      placa: clean(pick(row, map, "placa")),
+      consultor: normPerson(pick(row, map, "consultor")),
+      tecnico: normPerson(pick(row, map, "tecnico")),
+      tipo: clean(pick(row, map, "tipo")) || "Não informado",
+      status: normStatus(pick(row, map, "status")),
+      naCasa: clean(pick(row, map, "naCasa")) || "—"
+    }));
+
+    const seenOs = new Set();
+    const ordens = ordensRaw.filter((row) => {
+      const key = [row.os, row.chassis, row.entrada, row.status, row.cliente].join("|");
+      if (seenOs.has(key)) return false;
+      seenOs.add(key);
+      return true;
+    });
+
+    const patioDias = groupBy(patio, (r) => r.data);
+    const doadorDias = groupBy(doadores, (r) => r.data);
+    const ordemDias = groupBy(ordens, (r) => r.entrada);
+
+    function countPecas(rows) {
+      return rows.reduce((sum, row) => sum + row.pecas.split("/").map((p) => p.trim()).filter(Boolean).length, 0);
+    }
+
+    function medianaDias(rows, snap) {
+      const vals = rows.map((r) => idade(snap, r.entrada)).filter((n) => n != null).sort((a, b) => a - b);
+      if (!vals.length) return null;
+      const mid = Math.floor(vals.length / 2);
+      if (vals.length % 2) return vals[mid];
+      return Math.round((vals[mid - 1] + vals[mid]) / 2);
+    }
+
+    function bucketsOf(rows, snap) {
+      const bins = [0, 0, 0, 0];
+      rows.forEach((r) => {
+        const d = idade(snap, r.entrada);
+        if (d == null) return;
+        if (d <= 7) bins[0] += 1;
+        else if (d <= 30) bins[1] += 1;
+        else if (d <= 90) bins[2] += 1;
+        else bins[3] += 1;
+      });
+      return bins;
+    }
+
+    function tally(rows, field) {
+      const map = new Map();
+      rows.forEach((row) => {
+        const key = row[field] || "Não informado";
+        map.set(key, (map.get(key) || 0) + 1);
+      });
+      return [...map.entries()].sort((a, b) => b[1] - a[1]);
+    }
+
+    function matchesQuery(row, fields) {
+      const q = state.query.trim().toLowerCase();
+      if (!q) return true;
+      return fields.some((field) => String(row[field] || "").toLowerCase().includes(q));
+    }
+
+    function colorOf(name, index) {
+      return COLORS[name] || ["#7a6cff", "#3ee0a0", "#5aa2ff", "#f5b14a", "#ff8a5b", "#c084fc"][index % 6];
+    }
+
+    function setTexts(map) {
+      Object.entries(map).forEach(([id, value]) => { $(id).textContent = value; });
+    }
+
+    function itemId(parts) {
+      return parts.map((part) => String(part || "")).join("|");
+    }
+
+    function passBand(row, snap) {
+      const days = idade(snap, row.entrada);
+      if (state.extra === "stay" && days == null) return false;
+      if (state.band == null) return true;
+      if (days == null) return false;
+      if (state.band === 0) return days <= 7;
+      if (state.band === 1) return days > 7 && days <= 30;
+      if (state.band === 2) return days > 30 && days <= 90;
+      return days > 90;
+    }
+
+    function metricOn(metric) {
+      if (metric.kind === "status") return state.status === metric.value;
+      if (metric.kind === "place") return state.place === metric.value;
+      if (metric.kind === "extra") return state.extra === metric.value;
+      return false;
+    }
+
+    function miniPressed(which) {
+      if (which === "mini1") {
+        if (state.view === "patio") return state.extra === "stay";
+        if (state.view === "doadores") return state.extra === "pecas";
+        return state.place === "sim";
+      }
+      if (state.view === "patio") return state.status === "Aguardando peças";
+      if (state.view === "doadores") return state.extra === "chassis";
+      return state.status === "Finalizado";
+    }
+
+    function viewModel() {
+      if (state.view === "patio") {
+        const days = patioDias;
+        if (state.date == null) state.date = days[days.length - 1][0];
+        const index = Math.max(0, days.findIndex((d) => d[0] === state.date));
+        const current = days[index][1];
+        const prev = index > 0 ? days[index - 1][1] : null;
+        const filtered = current.filter((r) => (!state.status || r.status === state.status) && passBand(r, state.date) && matchesQuery(r, ["cliente", "placa", "os", "chassis", "modelo", "tecnico", "consultor", "status"]));
+        const stats = tally(current, "status");
+        return {
+          title: "Painel da Oficina",
+          subtitle: "Pátio e oficina · controle de " + fmtDate(state.date),
+          chartTitle: "Fluxo do pátio",
+          chartSub: "Veículos registrados em cada dia da planilha",
+          chartRange: fmtShort(days[0][0]) + " — " + fmtShort(days[days.length - 1][0]),
+          bars: days.map(([day, rows]) => ({ key: day, label: fmtShort(day), value: rows.length, tip: fmtDate(day) + " · " + rows.length + " veículos" })),
+          heroKicker: "No pátio em " + fmtDate(state.date),
+          heroValue: String(current.length),
+          delta: deltaText(current.length, prev && prev.length, "veículos"),
+          metrics: stats.slice(0, 5).map(([name, count]) => ({ name, count, color: colorOf(name, 0), kind: "status", value: name })),
+          donutTitle: "Situação",
+          donutSub: "Toque numa fatia para filtrar a lista",
+          donutLabel: "veículos",
+          parts: stats,
+          mini1Title: "Permanência mediana",
+          mini1: medianaDias(current, state.date) == null ? null : medianaDias(current, state.date) + "d",
+          mini1Sub: "Metade da frota está há menos tempo que isso",
+          buckets: bucketsOf(current, state.date),
+          mini2Title: "Aguardando peças",
+          mini2: String((stats.find((s) => s[0] === "Aguardando peças") || [0, 0])[1]),
+          mini2Sub: "Parados à espera de componente",
+          mini2Tag: fmtShort(state.date),
+          listTitle: "Veículos",
+          listSub: filtered.length + " de " + current.length + " neste controle",
+          items: filtered
+            .slice()
+            .sort((a, b) => (idade(state.date, b.entrada) || -1) - (idade(state.date, a.entrada) || -1))
+            .map((r) => ({
+              id: itemId([r.data, r.os, r.chassis, r.placa, r.cliente]),
+              sigla: r.modelo.slice(0, 2).toUpperCase(),
+              title: r.cliente,
+              meta: [r.modelo, r.placa, "OS " + r.os].filter(Boolean).join(" · "),
+              age: fmtIdade(idade(state.date, r.entrada)),
+              pill: r.status,
+              color: colorOf(r.status, 0),
+              details: [
+                ["Cliente", r.cliente],
+                ["Modelo", r.modelo],
+                ["Placa", r.placa],
+                ["OS", r.os],
+                ["Chassi", r.chassis],
+                ["Consultor", r.consultor],
+                ["Técnico", r.tecnico],
+                ["Status", r.status],
+                ["Entrada", r.entrada ? fmtDate(r.entrada) : ""],
+                ["Permanência", fmtIdade(idade(state.date, r.entrada))]
+              ]
+            }))
+        };
+      }
+
+      if (state.view === "doadores") {
+        const days = doadorDias;
+        if (state.date == null || !days.some((d) => d[0] === state.date)) state.date = days[days.length - 1][0];
+        const index = Math.max(0, days.findIndex((d) => d[0] === state.date));
+        const current = days[index][1];
+        const prev = index > 0 ? days[index - 1][1] : null;
+        const filtered = current.filter((r) => (!state.status || r.modelo === state.status) && (state.extra !== "chassis" || r.chassis) && matchesQuery(r, ["cliente", "placa", "os", "chassis", "modelo", "pecas", "tecnico", "consultor"]));
+        const stats = tally(current, "modelo");
+        const pecas = countPecas(current);
+        return {
+          title: "Doadores de peças",
+          subtitle: "Retiradas registradas em " + fmtDate(state.date),
+          chartTitle: "Retiradas por dia",
+          chartSub: "Registros de veículos doadores em cada controle",
+          chartRange: fmtShort(days[0][0]) + " — " + fmtShort(days[days.length - 1][0]),
+          bars: days.map(([day, rows]) => ({ key: day, label: fmtShort(day), value: rows.length, tip: fmtDate(day) + " · " + rows.length + (rows.length === 1 ? " retirada" : " retiradas") })),
+          heroKicker: "Registros em " + fmtDate(state.date),
+          heroValue: String(current.length),
+          delta: deltaText(current.length, prev && prev.length, "registros"),
+          metrics: [
+            { name: "Peças citadas", count: pecas, color: "#3ee0a0", kind: "extra", value: "pecas" },
+            { name: "Modelos", count: stats.length, color: "#7a6cff", kind: "clear", value: "" },
+            { name: "Chassis distintos", count: new Set(current.map((r) => r.chassis).filter(Boolean)).size, color: "#5aa2ff", kind: "extra", value: "chassis" }
+          ],
+          donutTitle: "Modelos",
+          donutSub: "Toque para filtrar as retiradas",
+          donutLabel: "retiradas",
+          parts: stats,
+          mini1Title: "Peças citadas",
+          mini1: pecas,
+          mini1Sub: "Itens separados por barra na descrição",
+          buckets: null,
+          mini2Title: "Chassis distintos",
+          mini2: String(new Set(current.map((r) => r.chassis).filter(Boolean)).size),
+          mini2Sub: "Veículos doadores neste controle",
+          mini2Tag: fmtShort(state.date),
+          listTitle: "Peças retiradas",
+          listSub: filtered.length + " de " + current.length + " registros",
+          items: filtered.map((r) => ({
+            id: itemId([r.data, r.os, r.chassis, r.pecas, r.cliente]),
+            sigla: r.modelo.slice(0, 2).toUpperCase(),
+            title: r.pecas,
+            meta: [r.cliente, r.modelo, r.chassis && "chassi " + r.chassis, r.tecnico].filter(Boolean).join(" · "),
+            age: r.retirada ? fmtShort(r.retirada) : "—",
+            pill: r.modelo,
+            color: colorOf(r.modelo, stats.findIndex((s) => s[0] === r.modelo)),
+            details: [
+              ["Peça", r.pecas],
+              ["Cliente", r.cliente],
+              ["Modelo", r.modelo],
+              ["Chassi", r.chassis],
+              ["Placa", r.placa],
+              ["OS", r.os],
+              ["Consultor", r.consultor],
+              ["Técnico", r.tecnico],
+              ["Doador", r.doador],
+              ["Retirada", r.retirada ? fmtDate(r.retirada) : ""]
+            ]
+          }))
+        };
+      }
+
+      const days = ordemDias;
+      const abertas = ordens.filter((r) => r.status !== "Finalizado");
+      const filtered = ordens.filter((r) => {
+        const dayOk = state.date == null || r.entrada === state.date;
+        const statusOk = !state.status || r.status === state.status;
+        const placeOk = !state.place || (state.place === "sim") === String(r.naCasa).toLowerCase().startsWith("sim");
+        return dayOk && statusOk && placeOk && matchesQuery(r, ["cliente", "placa", "os", "chassis", "tipo", "tecnico", "consultor", "status"]);
+      });
+      const stats = tally(ordens, "status");
+      const naCasa = ordens.filter((r) => r.naCasa.toLowerCase().startsWith("sim")).length;
+      return {
+        title: "Ordens de serviço",
+        subtitle: "Quadro de planejamento da oficina",
+        chartTitle: "Entradas no quadro",
+        chartSub: "Ordens lançadas por data de entrada",
+        chartRange: days.length ? fmtShort(days[0][0]) + " — " + fmtShort(days[days.length - 1][0]) : "",
+        bars: days.map(([day, rows]) => ({ key: day, label: fmtShort(day), value: rows.length, tip: fmtDate(day) + " · " + rows.length + " OS" })),
+        heroKicker: "Em aberto agora",
+        heroValue: String(abertas.length),
+        delta: { kind: "flat", text: ordens.length + " ordens no quadro" },
+        metrics: [
+          { name: "Finalizadas", count: ordens.length - abertas.length, color: "#3ee0a0", kind: "status", value: "Finalizado" },
+          { name: "Na concessionária", count: naCasa, color: "#7a6cff", kind: "place", value: "sim" },
+          { name: "Fora da casa", count: ordens.length - naCasa, color: "#f5b14a", kind: "place", value: "nao" }
+        ],
+        donutTitle: "Status das OS",
+        donutSub: "Quadro completo, sem repetir a OS duplicada",
+        donutLabel: "ordens",
+        parts: stats,
+        mini1Title: "Na concessionária",
+        mini1: naCasa,
+        mini1Sub: "Veículo ainda dentro da Torino",
+        buckets: null,
+        mini2Title: "Finalizadas",
+        mini2: String(ordens.length - abertas.length),
+        mini2Sub: "Encerradas no quadro de planejamento",
+        mini2Tag: ordens.length + " OS",
+        listTitle: "Ordens",
+        listSub: filtered.length + " de " + ordens.length + " no quadro",
+        items: filtered
+          .slice()
+          .sort((a, b) => b.entrada - a.entrada)
+          .map((r) => ({
+            id: itemId([r.entrada, r.os, r.chassis, r.cliente]),
+            sigla: (r.tipo || "OS").slice(0, 2).toUpperCase(),
+            title: r.cliente,
+            meta: ["OS " + r.os, r.tipo, r.tecnico && r.tecnico].filter(Boolean).join(" · "),
+            age: r.saida ? fmtShort(r.saida) : "sem saída",
+            pill: r.status,
+            color: colorOf(r.status, 0),
+            details: [
+              ["Cliente", r.cliente],
+              ["OS", r.os],
+              ["Tipo", r.tipo],
+              ["Status", r.status],
+              ["Chassi", r.chassis],
+              ["Placa", r.placa],
+              ["Consultor", r.consultor],
+              ["Técnico", r.tecnico],
+              ["Entrada", fmtDate(r.entrada)],
+              ["Saída", r.saida ? fmtDate(r.saida) : ""],
+              ["Na concessionária", r.naCasa]
+            ]
+          }))
+      };
+    }
+
+    function deltaText(current, previous, noun) {
+      if (previous == null) return { kind: "flat", text: "primeiro controle da série" };
+      const diff = current - previous;
+      if (diff === 0) return { kind: "flat", text: "igual ao controle anterior" };
+      const sinal = diff > 0 ? "+" : "";
+      return { kind: diff > 0 ? "up" : "down", text: sinal + diff + " " + noun + " vs. controle anterior" };
+    }
+
+    function render() {
+      const vm = viewModel();
+      setTexts({
+        title: vm.title,
+        subtitle: vm.subtitle,
+        "chart-title": vm.chartTitle,
+        "chart-sub": vm.chartSub,
+        "chart-range": vm.chartRange,
+        "hero-kicker": vm.heroKicker,
+        "hero-value": vm.heroValue,
+        "donut-title": vm.donutTitle,
+        "donut-sub": vm.donutSub,
+        "donut-total": String(vm.parts.reduce((s, p) => s + p[1], 0)),
+        "donut-label": vm.donutLabel,
+        "mini1-title": vm.mini1Title,
+        "mini1-value": vm.mini1 == null ? "—" : String(vm.mini1),
+        "mini1-sub": vm.mini1Sub,
+        "mini2-title": vm.mini2Title,
+        "mini2-value": vm.mini2,
+        "mini2-sub": vm.mini2Sub,
+        "mini2-tag": vm.mini2Tag,
+        "list-title": vm.listTitle,
+        "list-sub": vm.listSub
+      });
+
+      const delta = $("hero-delta");
+      delta.className = "delta " + vm.delta.kind;
+      delta.textContent = vm.delta.text;
+
+      $("hero-metrics").innerHTML = vm.metrics.map((metric) =>
+        '<button type="button" class="metric' + (metricOn(metric) ? " on" : "") + '" data-kind="' + metric.kind + '" data-value="' + escapeHtml(metric.value) + '" aria-pressed="' + metricOn(metric) + '"><span><i class="dot" style="background:' + metric.color + '"></i>' + escapeHtml(metric.name) + "</span><b>" + metric.count + "</b></button>"
+      ).join("");
+
+      const max = Math.max(...vm.bars.map((b) => b.value), 1);
+      $("chart").innerHTML = vm.bars.map((bar, index) => {
+        const on = state.date === bar.key;
+        const edge = index === 0 ? " left" : index === vm.bars.length - 1 ? " right" : "";
+        const h = Math.max(8, Math.round((bar.value / max) * 100));
+        return '<button type="button" class="bar-wrap' + (on ? " on" : "") + '" data-day="' + bar.key + '" aria-pressed="' + on + '" title="' + escapeHtml(bar.tip) + '"><span class="bar" style="height:' + h + '%"><span class="tip' + edge + '">' + escapeHtml(bar.tip) + '</span></span></button>';
+      }).join("");
+
+      const total = vm.parts.reduce((s, p) => s + p[1], 0) || 1;
+      const radius = 36;
+      const circ = 2 * Math.PI * radius;
+      let drawn = 0;
+      $("donut").classList.toggle("has-filter", Boolean(state.status));
+      $("donut-svg").innerHTML = vm.parts.map(([name, count], index) => {
+        const len = (count / total) * circ;
+        const slice = '<circle class="slice' + (state.status === name ? " on" : "") + '" data-status="' + escapeHtml(name) + '" role="button" tabindex="0" aria-label="' + escapeHtml(name) + '" aria-pressed="' + (state.status === name) + '" cx="50" cy="50" r="' + radius + '" stroke="' + colorOf(name, index) + '" stroke-dasharray="' + len + " " + (circ - len) + '" stroke-dashoffset="' + (-drawn) + '"></circle>';
+        drawn += len;
+        return slice;
+      }).join("");
+
+      $("legend").innerHTML = vm.parts.map(([name, count], i) => {
+        const on = state.status === name;
+        return '<button type="button" class="' + (on ? "on" : "") + '" data-status="' + escapeHtml(name) + '" aria-pressed="' + on + '"><i class="dot" style="background:' + colorOf(name, i) + '"></i>' + escapeHtml(name) + "<strong>" + count + "</strong></button>";
+      }).join("") || '<div class="empty">Sem dados neste recorte.</div>';
+
+      const bucketBox = $("buckets");
+      const bandLabels = ["0–7d", "8–30d", "31–90d", "+90d"];
+      if (vm.buckets) {
+        bucketBox.style.display = "flex";
+        const bmax = Math.max(...vm.buckets, 1);
+        bucketBox.innerHTML = vm.buckets.map((count, index) => {
+          const on = state.band === index;
+          return '<button type="button" data-band="' + index + '" class="' + (on ? "on" : "") + '" aria-pressed="' + on + '" aria-label="' + bandLabels[index] + ": " + count + '"><i style="height:' + Math.max(8, Math.round((count / bmax) * 46)) + 'px"></i><span>' + bandLabels[index] + "</span></button>";
+        }).join("");
+      } else {
+        bucketBox.style.display = "none";
+        bucketBox.innerHTML = "";
+      }
+
+      ["mini1", "mini2"].forEach((id) => {
+        const pressed = miniPressed(id);
+        $(id).classList.toggle("on", pressed);
+        $(id).setAttribute("aria-pressed", String(pressed));
+      });
+
+      const picked = vm.items.find((item) => item.id === state.selected) || null;
+      if (!picked) state.selected = null;
+      const detail = $("detail");
+      if (!picked) {
+        detail.hidden = true;
+        detail.innerHTML = "";
+      } else {
+        detail.hidden = false;
+        detail.innerHTML = "<strong>" + escapeHtml(picked.title) + "</strong><dl>" + picked.details.map(([label, value]) => "<div><dt>" + escapeHtml(label) + "</dt><dd>" + escapeHtml(value || "—") + "</dd></div>").join("") + "</dl>";
+      }
+
+      const listScroll = $("list").scrollTop;
+      $("list").innerHTML = vm.items.length
+        ? vm.items.map((item) => {
+          const on = item.id === state.selected;
+          return '<button type="button" class="item' + (on ? " on" : "") + '" role="option" data-id="' + encodeURIComponent(item.id) + '" aria-selected="' + on + '"><div class="badge" style="color:' + item.color + '">' + escapeHtml(item.sigla) + '</div><div><div class="who">' + escapeHtml(item.title) + '</div><div class="meta">' + escapeHtml(item.meta) + '</div></div><div class="right"><div class="age">' + escapeHtml(item.age) + '</div><div class="pill" style="color:' + item.color + '">' + escapeHtml(item.pill) + "</div></div></button>";
+        }).join("")
+        : '<div class="empty">Nenhum registro com esse filtro.</div>';
+      $("list").scrollTop = listScroll;
+
+      document.querySelectorAll(".nav button").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.view === state.view);
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+
+    function toggleStatus(name) {
+      state.status = state.status === name ? null : name;
+      state.selected = null;
+      render();
+    }
+
+    function applyKind(kind, value) {
+      state.selected = null;
+      if (kind === "status") state.status = state.status === value ? null : value;
+      else if (kind === "place") state.place = state.place === value ? null : value;
+      else if (kind === "extra") state.extra = state.extra === value ? null : value;
+      else if (kind === "clear") {
+        state.status = null;
+        state.place = null;
+        state.extra = null;
+        state.band = null;
+      }
+      render();
+    }
+
+    document.querySelector(".nav").addEventListener("click", (event) => {
+      const btn = event.target.closest("button");
+      if (!btn) return;
+      state.view = btn.dataset.view;
+      state.date = null;
+      state.status = null;
+      state.query = "";
+      state.selected = null;
+      state.band = null;
+      state.place = null;
+      state.extra = null;
+      $("q").value = "";
+      render();
+    });
+
+    $("chart").addEventListener("click", (event) => {
+      const bar = event.target.closest("[data-day]");
+      if (!bar) return;
+      const day = Number(bar.dataset.day);
+      state.date = state.date === day && state.view === "ordens" ? null : day;
+      state.status = null;
+      state.selected = null;
+      state.band = null;
+      state.place = null;
+      state.extra = null;
+      render();
+    });
+
+    function onStatusClick(event) {
+      const btn = event.target.closest("[data-status]");
+      if (!btn) return;
+      toggleStatus(btn.dataset.status);
+    }
+
+    $("legend").addEventListener("click", onStatusClick);
+    $("donut").addEventListener("click", onStatusClick);
+    $("donut").addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      onStatusClick(event);
+      event.preventDefault();
+    });
+
+    $("hero-metrics").addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-kind]");
+      if (!btn) return;
+      applyKind(btn.dataset.kind, btn.dataset.value);
+    });
+
+    $("buckets").addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-band]");
+      if (!btn) return;
+      event.stopPropagation();
+      const band = Number(btn.dataset.band);
+      state.band = state.band === band ? null : band;
+      state.selected = null;
+      render();
+    });
+
+    $("mini1").addEventListener("click", () => {
+      state.selected = null;
+      if (state.view === "patio") state.extra = state.extra === "stay" ? null : "stay";
+      else if (state.view === "doadores") state.extra = state.extra === "pecas" ? null : "pecas";
+      else state.place = state.place === "sim" ? null : "sim";
+      render();
+    });
+
+    $("mini2").addEventListener("click", () => {
+      if (state.view === "doadores") {
+        state.extra = state.extra === "chassis" ? null : "chassis";
+        state.selected = null;
+        render();
+        return;
+      }
+      toggleStatus(state.view === "patio" ? "Aguardando peças" : "Finalizado");
+    });
+
+    $("list").addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-id]");
+      if (!btn) return;
+      const id = decodeURIComponent(btn.dataset.id);
+      state.selected = state.selected === id ? null : id;
+      render();
+    });
+
+    $("q").addEventListener("input", (event) => {
+      state.query = event.target.value;
+      state.selected = null;
+      render();
+    });
+
+    $("clear").addEventListener("click", () => {
+      state.status = null;
+      state.query = "";
+      state.selected = null;
+      state.band = null;
+      state.place = null;
+      state.extra = null;
+      if (state.view === "ordens") state.date = null;
+      $("q").value = "";
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
